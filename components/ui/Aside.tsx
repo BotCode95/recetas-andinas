@@ -10,7 +10,7 @@ export const Aside: FC = () => {
       <style jsx>{`
         div {
           background: url("/img-recetas-short.jpg");
-          min-height: 95vh;
+          min-height: 90vh;
           background-size: cover;
           border-radius: 0 0 100px 0;
         }

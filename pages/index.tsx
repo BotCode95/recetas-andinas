@@ -53,15 +53,15 @@ const Home: NextPage<Props> = ({ recetasList }: Props) => {
         <Grid item md={2}>
           <Aside />
         </Grid>
-        <Grid item xs={12} md={10} sx={{ paddingLeft: "56px !important" }}>
+        <Grid item xs={12} md={10} sx={{ paddingLeft: "56px !important", paddingRight: '8px' }}>
           <h2>Recetas de Cocina</h2>
           <Grid container sx={{marginBotton: '24px'}}>
             <SearchInput filtro={isActive()}/>
-            <Grid item md={3} style={{display:'flex', justifyContent: 'center',alignItems:'center',borderRadius: '16px', backgroundColor: '#EBF0F3', height:'48px', margin:'32px 24px 0 0'}}>
-              <Grid item xs={3} md={5}>
+            <Grid item xs={12} md={3} style={{display:'flex', justifyContent: 'center',alignItems:'center',borderRadius: '16px', backgroundColor: '#EBF0F3', height:'48px', margin:'32px 24px 0 0'}}>
+              <Grid item xs={5} md={5}>
                 <span className="px-2"> Cocido antes: </span>
               </Grid>  
-              <Grid item xs={3} md={7}>  
+              <Grid item xs={7} md={7}>  
                 <FormControl sx={{border:'none'}}>
                 <Select
                 variant='standard'
@@ -80,10 +80,10 @@ const Home: NextPage<Props> = ({ recetasList }: Props) => {
             </Grid>
           </Grid>
           <Grid container spacing={2} className={styles.grid_titulo}>
-            <Grid item xs={6} md={8}>
+            <Grid item xs={5} md={8}>
               Nombre de la comida
             </Grid>
-            <Grid item xs={3} md={2}>
+            <Grid item xs={4} md={2}>
               Reseñas
             </Grid>
             <Grid item xs={3} md={2}>
@@ -101,7 +101,7 @@ const Home: NextPage<Props> = ({ recetasList }: Props) => {
             ))
           } 
           {recipesFilter.length === 0 || messageSearch.length === 0 ? 
-            (<Grid container justifyContent="flex-end" sx={{paddingX:'40px'}}>
+            (<Grid container justifyContent="flex-end" className="px-4 mb-2">
               <Tooltip title="Añadir Receta" placement="left">
                 <Fab color="primary" aria-label="add">
                   <AddIcon onClick={handleOpen} sx={{fontSize:'40px'}}/>

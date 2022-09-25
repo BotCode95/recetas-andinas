@@ -28,6 +28,7 @@ interface Props {
 }
 
 export const NuevaReceta = ({ open, handleClose }: Props) => {
+  
   const [selectedValue, setSelectedValue] = useState<number>(0);
   const [required, setRequired] = useState({
     name: "",
@@ -64,6 +65,14 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
   };
 
   const deleteIngredient = (id: number) => {
+
+    if(ingredients.length === 1) {
+      setRequired({
+        ...required,
+        ingredients: 'La receta debe contener al menos un ingrediente'
+      })
+      return
+    }
     setForm({
       ...form,
       ingredients: ingredients.filter((ingredient) => ingredient.id !== id),
@@ -173,7 +182,7 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
               </p>
               {ingredients?.map((ingredient, index) => (
                 <Grid container className="mt-2 px-5" key={ingredient.id} alignContent={"center"}>
-                  <Grid item md={2}>{index + 1}</Grid>
+                  <Grid item md={2} className="d-flex align-items-center">{index + 1}</Grid>
                   <Grid item md={7}>
                     <TextField
                       id="ingredient"
@@ -285,7 +294,7 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
               />
             </Grid>
             <Grid container justifyContent={"flex-end"} sx={{ p: 2 }}>
-              <Button type="submit" color="primary" variant="contained" sx={{borderRadius: '25px'}}>
+              <Button type="submit"  color="primary" variant="contained" sx={{borderRadius: '25px'}}>
                 Crear
               </Button>
             </Grid>
