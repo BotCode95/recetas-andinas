@@ -11,6 +11,8 @@ export const Aside: FC = () => {
         div {
           background: url("/img-recetas-short.jpg");
           min-height: 90vh;
+          height: '90%';
+          width: '100%';
           background-size: cover;
           border-radius: 0 0 100px 0;
         }

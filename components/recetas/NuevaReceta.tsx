@@ -13,129 +13,39 @@ import {
 import {
   DeleteForever as DeleteForeverIcon,
   AddCircleOutline as AddCircleOutlineIcon,
-  Scale,
+  Close as CloseIcon,
 } from "@mui/icons-material";
-import {v4 as uuidv4} from 'uuid'
-import { Receta} from "../../interfaces/recetaInterface";
+import { v4 as uuidv4 } from "uuid";
+import { Receta } from "../../interfaces/recetaInterface";
 import { SwitchInput } from "../../components/ui/SwitchInput/SwitchInput";
 import { RecetasContext } from "../../context/recetas";
 import { useForm } from "../../hooks/useForm";
 import styles from "../../styles/Home.module.css";
 import { FormMessage } from "../ui";
+import { useNewRecipe } from "../../hooks/useNewRecipe";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
+  starTotal?: number[];
 }
 
 export const NuevaReceta = ({ open, handleClose }: Props) => {
-  
-  const [selectedValue, setSelectedValue] = useState<number>(0);
-  const [required, setRequired] = useState({
-    name: "",
-    ingredients: "",
-    preparation: "",
-  });
-  const { form, setForm, onChange } = useForm<Receta>({
-    id:parseInt(uuidv4()),
-    name: "",
-    ingredients: [
-      { id: 1, description: "" },
-      { id: 2, description: "" },
-    ],
-    review: 0,
-    preparation: "",
-    active: true,
-  });
-
-  const { addNewRecipe } = useContext(RecetasContext);
+  const {
+    form,
+    required,
+    selectedValue,
+    addNewIngredient,
+    deleteIngredient,
+    handleChange,
+    onChange,
+    onChangeIngredient,
+    onSubmit,
+    setForm,
+  } = useNewRecipe({ handleClose });
 
   const { id, name, ingredients, review, preparation, active } = form;
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(parseInt(e.target.value));
-    setForm({ ...form, review: parseInt(e.target.value) });
-  };
-
-  const addNewIngredient = (id: number) => {
-    let newIngredient = { id: id + 1, description: "" };
-    setForm({
-      ...form,
-      ingredients: [...ingredients, newIngredient],
-    });
-  };
-
-  const deleteIngredient = (id: number) => {
-
-    if(ingredients.length === 1) {
-      setRequired({
-        ...required,
-        ingredients: 'La receta debe contener al menos un ingrediente'
-      })
-      return
-    }
-    setForm({
-      ...form,
-      ingredients: ingredients.filter((ingredient) => ingredient.id !== id),
-    });
-  };
-
-  const onChangeIngredient = (e: ChangeEvent<HTMLInputElement>, id : number) => {
-    const ingredientes = ingredients.map(ingredient => {
-      if(ingredient.id === id){
-        return {
-          id,
-          description: e.target.value
-        }
-      }
-      return ingredient
-    })
-    setForm({
-      ...form,
-      ingredients:ingredientes
-    })
-  }
-
-  const onSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    if (name === "") {
-      setRequired({ ...required, name: "* Requerido" });
-      return;
-    }
-    if (preparation === "") {
-      setRequired({ ...required, preparation: "* Requerido" });
-      return;
-    }
-    if (ingredients.length < 2) {
-      setRequired({
-        ...required,
-        preparation: "* Requerido - escriba al menos un ingredientes",
-      });
-      return;
-    }
-    const recipe: Receta = {
-      id,
-      name,
-      ingredients,
-      preparation,
-      review,
-      active,
-    };
-    addNewRecipe(recipe);
-    handleClose()
-    setForm(
-      {
-        id: parseInt(uuidv4()),
-        name: "",
-        ingredients: [
-          { id: 1, description: "" },
-          { id: 2, description: "" },
-        ],
-        review: 0,
-        preparation: "",
-        active: true
-      })
-  };
   return (
     <Modal
       open={open}
@@ -144,14 +54,17 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
       aria-describedby="modal-modal-description"
     >
       <Box className={styles.modal} sx={{ mt: 2, paddingX: "12px" }}>
-        <Typography
-          id="modal-modal-title"
-          variant="h6"
-          component="h2"
-          sx={{ mt: 2, paddingX: 2 }}
-        >
-          Nueva Receta
-        </Typography>
+        <Grid container sx={{ mt: 2, paddingX: 2 }}>
+          <Grid item xs={11}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Nueva Receta
+            </Typography>
+          </Grid>
+          <Grid item xs={1} justifyContent={"flex-end"} alignItems={"flex-end"}>
+            <CloseIcon onClick={handleClose} sx={{ cursor: "pointer" }} />
+          </Grid>
+        </Grid>
+
         <form onSubmit={onSubmit}>
           <Grid
             container
@@ -159,22 +72,22 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
             id="modal-modal-description"
           >
             <Grid item xs={12} md={12}>
-              <p>
-                <strong>Nombre de la receta</strong>
-              </p>
+              <strong>Nombre de la receta</strong>
               <FormControl variant="filled" fullWidth>
                 <TextField
                   id="name"
                   label={"Titulo*"}
                   name="name"
                   value={name}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value, "name")}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    onChange(e.target.value, "name")
+                  }
                   placeholder="P.ej. Olla caliente de carne y arroz en la olla de cocción lenta"
                   multiline
                 />
               </FormControl>
               {required.name.length > 0 ? (
-                <FormMessage required={required.name}/>
+                <FormMessage required={required.name} />
               ) : null}
             </Grid>
             <Grid item xs={12} md={12} className="mt-5">
@@ -182,8 +95,15 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
                 <strong>Ingredientes</strong>
               </p>
               {ingredients?.map((ingredient, index) => (
-                <Grid container className="mt-2 px-3" key={ingredient.id} alignContent={"center"}>
-                  <Grid item md={1} className="d-flex align-items-center">{index + 1}</Grid>
+                <Grid
+                  container
+                  className="mt-2 px-3"
+                  key={ingredient.id}
+                  alignContent={"center"}
+                >
+                  <Grid item md={1} className="d-flex align-items-center">
+                    {index + 1}
+                  </Grid>
                   <Grid item md={9}>
                     <TextField
                       id="ingredient"
@@ -192,33 +112,33 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
                       placeholder="Tipo de Ingrediente"
                       name={ingredient.description}
                       value={ingredient.description}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeIngredient(e, ingredient.id)}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        onChangeIngredient(e, ingredient.id)
+                      }
                       fullWidth
                     />
                   </Grid>
                   <Grid item md={2} className="d-flex px-2 mt-2">
                     {index + 1 === ingredients.length ? (
-
                       <AddCircleOutlineIcon
                         onClick={() => addNewIngredient(ingredient.id)}
-                        style={{color: '#8DC63F'}}
-                        fontSize={'large'}
-                        sx={{cursor: 'pointer'}}
-                        
-                        />
+                        style={{ color: "#8DC63F" }}
+                        fontSize={"large"}
+                        sx={{ cursor: "pointer" }}
+                      />
                     ) : (
                       <DeleteForeverIcon
                         onClick={() => deleteIngredient(ingredient.id)}
-                        style={{color: '#F7941D'}}
-                        fontSize={'large'}
-                        sx={{cursor: 'pointer'}}
+                        style={{ color: "#F7941D" }}
+                        fontSize={"large"}
+                        sx={{ cursor: "pointer" }}
                       />
                     )}
                   </Grid>
                 </Grid>
               ))}
               {required.ingredients.length > 0 ? (
-                <FormMessage required={required.ingredients}/>
+                <FormMessage required={required.ingredients} />
               ) : null}
               <p>
                 <strong>Preparación</strong>
@@ -234,10 +154,11 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
                     onChange(e.target.value, "preparation")
                   }
                   value={preparation}
+                  // sx={{border: '1px solid #54B5BA',borderRadius: '4px'}}
                 />
               </FormControl>
               {required.preparation.length > 0 ? (
-                <FormMessage required={required.preparation}/>
+                <FormMessage required={required.preparation} />
               ) : null}
             </Grid>
             <p className="mt-2">
@@ -296,7 +217,12 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
               />
             </Grid>
             <Grid container justifyContent={"flex-end"} sx={{ p: 2 }}>
-              <Button type="submit"  color="primary" variant="contained" sx={{borderRadius: '25px'}}>
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                sx={{ borderRadius: "25px" }}
+              >
                 Crear
               </Button>
             </Grid>

@@ -1,8 +1,9 @@
 import { FormControlLabel, FormGroup, Grid, styled, Switch, SwitchProps, Divider} from "@mui/material";
-import { FC, useState } from "react";
+import { FC } from "react";
 import {Receta as Recipe} from '../../interfaces/recetaInterface'
-import { StarGoldenOrEmpty } from '../StarGoldenOrEmpty'
+import { StarGoldenOrEmpty } from '../ui'
 import { Receta } from "./Receta";
+import { useModalReceta } from '../../hooks/useModalReceta';
 
 interface Props {
     receta: Recipe
@@ -62,16 +63,13 @@ const IOSSwitch = styled((props: SwitchProps) => (
 
 export const RecetaCard: FC<Props>= ({receta}) => {
   const starTotal = [0,1,2,3];
-
-  const [open, setOpen] = useState<boolean>(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const {open, handleClose, handleOpen} = useModalReceta()
 
   return (
     <>
     <Grid container spacing={2} style={{padding: '8px'}}>
-    <Grid item xs={5} md={8} onClick={handleOpen} sx={{cursor: 'pointer'}}>
-      <span  style={({ color: !receta.active ? "#DEDEDE" : "#000" })}>{receta.name}</span>
+    <Grid item xs={5} md={8} >
+      <span  style={({ color: !receta.active ? "#DEDEDE" : "#000", cursor: 'pointer'})} onClick={handleOpen}>{receta.name}</span>
     </Grid>
     <Grid item xs={4} md={2}>
       {starTotal.map((star, index)=> (

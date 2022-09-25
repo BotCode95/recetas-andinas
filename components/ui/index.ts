@@ -1,3 +1,7 @@
 export * from './Navbar'
 export * from './Aside'
 export * from './FormMessage/FormMessage'
+export * from './SelectCocinadoAntes/SelectCocinadoAntes'
+export * from './Search/Search'
+export * from './SearchInput/SearchInput'
+export * from './StarReview/StarGoldenOrEmpty'
