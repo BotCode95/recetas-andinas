@@ -21,6 +21,7 @@ import { SwitchInput } from "../../components/ui/SwitchInput/SwitchInput";
 import { RecetasContext } from "../../context/recetas";
 import { useForm } from "../../hooks/useForm";
 import styles from "../../styles/Home.module.css";
+import { StarGoldenOrEmpty } from "../StarGoldenOrEmpty";
 
 interface Props {
     receta: Recipe
@@ -29,6 +30,8 @@ interface Props {
 }
 
 export const Receta = ({ receta, open, handleClose }: Props) => {
+
+  const starTotal = [0,1,2,3];
   return (
     <Modal
       open={open}
@@ -62,11 +65,10 @@ export const Receta = ({ receta, open, handleClose }: Props) => {
                 <strong>Ingredientes</strong>
               </p>
               {receta.ingredients?.map((ingredient: Ingredients, index: number) => (
-                <Grid container className="mt-2 px-5" key={ingredient.id} alignContent={"center"}>
-                  <Grid item md={2} className="d-flex align-items-center">{ingredient.id}</Grid>
-                  <Grid item md={7}>
-                    <span>{ingredient.description}</span>
-                  </Grid>
+                <Grid container className="mt-2" key={ingredient.id}>
+                  <ul>
+                    <li>{ingredient.id} {ingredient.description} </li>
+                  </ul>
                   </Grid> 
                 ))}
             </Grid>
@@ -78,7 +80,9 @@ export const Receta = ({ receta, open, handleClose }: Props) => {
               <strong>Reseña</strong>
             </p>
             <Grid container>
-                {receta.review}
+            {starTotal.map((star, index)=> (
+        <StarGoldenOrEmpty isGolden={receta.review > star ? true : false} key={index}/>
+      ))}
             </Grid>
             <p className="mt-2">
               <strong>Cocinado antes</strong>
