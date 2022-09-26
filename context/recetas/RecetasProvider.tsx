@@ -53,6 +53,13 @@ export const RecetasProvider: FC<Props> = ({children}) => {
     })
   }
   
+  const recipeUpdateState = (id: number, state: boolean) => {
+    dispatch({
+      type: "RecipeUpdateState",
+      payload: {id, state}
+    })
+  }
+
   return (
     <RecetasContext.Provider value={{
         recipes: state.recipes,
@@ -62,7 +69,8 @@ export const RecetasProvider: FC<Props> = ({children}) => {
         messageSearch: state.messageSearch,
         getRecipes,
         addNewRecipe,
-        getRecipesByFilter
+        getRecipesByFilter,
+        recipeUpdateState
     }}>
        {children}
     </RecetasContext.Provider>

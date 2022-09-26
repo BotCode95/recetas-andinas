@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, SyntheticEvent, useContext } from "react";
+import { ChangeEvent } from "react";
 import {
   Box,
   Button,
@@ -8,21 +8,15 @@ import {
   TextField,
   FormControl,
   Radio,
-  IconButton,
 } from "@mui/material";
 import {
   DeleteForever as DeleteForeverIcon,
   AddCircleOutline as AddCircleOutlineIcon,
   Close as CloseIcon,
 } from "@mui/icons-material";
-import { v4 as uuidv4 } from "uuid";
-import { Receta } from "../../interfaces/recetaInterface";
-import { SwitchInput } from "../../components/ui/SwitchInput/SwitchInput";
-import { RecetasContext } from "../../context/recetas";
-import { useForm } from "../../hooks/useForm";
-import styles from "../../styles/Home.module.css";
-import { FormMessage } from "../ui";
+import { FormMessage, SwitchInput } from "../ui";
 import { useNewRecipe } from "../../hooks/useNewRecipe";
+import styles from "../../styles/Home.module.css";
 
 interface Props {
   open: boolean;
@@ -44,7 +38,7 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
     setForm,
   } = useNewRecipe({ handleClose });
 
-  const { id, name, ingredients, review, preparation, active } = form;
+  const { name, ingredients, review, preparation, active } = form;
 
   return (
     <Modal
@@ -101,10 +95,10 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
                   key={ingredient.id}
                   alignContent={"center"}
                 >
-                  <Grid item md={1} className="d-flex align-items-center">
+                  <Grid item xs={1} md={1} className="d-flex align-items-center">
                     {index + 1}
                   </Grid>
-                  <Grid item md={9}>
+                  <Grid item xs={9} md={9}>
                     <TextField
                       id="ingredient"
                       label="Tipo de Ingrediente"
@@ -118,7 +112,7 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item md={2} className="d-flex px-2 mt-2">
+                  <Grid item xs={2} md={2} className="d-flex px-2 mt-2">
                     {index + 1 === ingredients.length ? (
                       <AddCircleOutlineIcon
                         onClick={() => addNewIngredient(ingredient.id)}
@@ -140,7 +134,7 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
               {required.ingredients.length > 0 ? (
                 <FormMessage required={required.ingredients} />
               ) : null}
-              <p>
+              <p className="mt-2">
                 <strong>Preparación</strong>
               </p>
               <FormControl variant="filled" fullWidth>
@@ -154,7 +148,6 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
                     onChange(e.target.value, "preparation")
                   }
                   value={preparation}
-                  // sx={{border: '1px solid #54B5BA',borderRadius: '4px'}}
                 />
               </FormControl>
               {required.preparation.length > 0 ? (
@@ -221,7 +214,7 @@ export const NuevaReceta = ({ open, handleClose }: Props) => {
                 type="submit"
                 color="primary"
                 variant="contained"
-                sx={{ borderRadius: "25px" }}
+                sx={{ borderRadius: "25px", width: " 110px", height: "48px" }}
               >
                 Crear
               </Button>

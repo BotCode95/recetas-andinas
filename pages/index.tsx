@@ -4,7 +4,7 @@ import { Layout } from "../components/layouts";
 import { recetas } from "../data/data";
 import { Receta as Recipe} from "../interfaces/recetaInterface";
 import { RecetasContext } from '../context/recetas';
-import { ListRecetas } from '../components/recetas/ListRecetas';
+import { ListRecetas } from '../components/recetas';
 interface Props {
   recetasList: Recipe[];
 }

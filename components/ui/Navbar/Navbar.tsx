@@ -1,10 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import styles from '../../styles/Home.module.css'
 
 export const Navbar = () => {
   return (
-    <div className={styles.navbar}>
+    <div>
         <Link href="/" passHref>
           <div>
             <Image

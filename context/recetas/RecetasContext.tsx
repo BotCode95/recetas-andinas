@@ -11,6 +11,7 @@ interface ContextProps {
    getRecipes: (recipes: Receta[]) => void
    addNewRecipe: (recipe: Receta) => void 
    getRecipesByFilter: (search: string, isActive: boolean |null) => void 
+   recipeUpdateState : (id: number, state: boolean) => void
 }
 
 export const RecetasContext = createContext({} as ContextProps);

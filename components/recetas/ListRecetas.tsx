@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Grid, Divider, Fab, Tooltip } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import { Receta as Recipe } from "../../interfaces/recetaInterface";
 import { Aside, Search } from "../ui";
-import { RecetaCard } from "./RecetaCard";
-import { Receta } from "./Receta";
+import { RecetaCard, Receta } from "./";
 import { RecetasContext } from "../../context/recetas";
 import { useModalReceta } from "../../hooks/useModalReceta";
-import styles from "../../styles/Home.module.css";
+import styled from "../../styles/Home.module.css";
 
 export const ListRecetas = () => {
   const { recipes, messageSearch, recipesFilter } = useContext(RecetasContext);
@@ -22,20 +21,20 @@ export const ListRecetas = () => {
           item
           xs={12}
           md={10}
-          sx={{ paddingLeft: "56px !important", paddingRight: "8px" }}
+          className={styled.container_list}
         >
           <h2>Recetas de Cocina</h2>
           <Grid container sx={{ marginBotton: "24px" }}>
             <Search />
           </Grid>
-          <Grid container spacing={2} className={styles.grid_titulo}>
+          <Grid container spacing={2} className={styled.grid_titulo}>
             <Grid item xs={5} md={8}>
               Nombre de la comida
             </Grid>
             <Grid item xs={4} md={2}>
               Reseñas
             </Grid>
-            <Grid item xs={3} md={2}>
+            <Grid item xs={3} md={2} style={{ paddingLeft: "10px" }}>
               Cocinado antes
             </Grid>
           </Grid>

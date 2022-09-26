@@ -1,7 +1,6 @@
 
 import { Receta as Recipe } from '../../interfaces/recetaInterface';
-import { NuevaReceta } from "./NuevaReceta";
-import { RecetaId } from "./RecetaId";
+import { NuevaReceta, RecetaId } from "./";
 
 interface Props {
   receta?: Recipe

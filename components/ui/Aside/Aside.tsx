@@ -1,11 +1,11 @@
 import { FC } from "react";
-import styled from '../../styles/UI.module.css'
+import styled from '../../../styles/UI.module.css'
 
 export const Aside: FC = () => {
   return (
     <>
-      <aside>
-        <div className={styled.container_aside}></div>
+      <aside className={styled.container_aside}>
+        <div></div>
       </aside>
       <style jsx>{`
         div {

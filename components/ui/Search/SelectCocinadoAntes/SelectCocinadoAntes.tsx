@@ -1,8 +1,14 @@
 import { FormControl, Grid, MenuItem, Select } from "@mui/material";
-import { useSelectCocinadoAntes } from "../../../hooks/useSelectCocinadoAntes";
+import { useSelectCocinadoAntes } from "../../../../hooks/useSelectCocinadoAntes";
 
 export const SelectCocinadoAntes = () => {
   const { cocinadoAntes, setCocinadoAntes } = useSelectCocinadoAntes();
+
+  const opciones = [
+    { name: "todos", value: "Todos" },
+    { name: "activos", value: "Activos" },
+    { name: "inactivos", value: "Inactivos" },
+  ];
   return (
     <Grid
       item
@@ -18,10 +24,10 @@ export const SelectCocinadoAntes = () => {
         margin: "32px 24px 0 0",
       }}
     >
-      <Grid item xs={5} md={5}>
-        <span className="px-2"> Cocido antes: </span>
+      <Grid item xs={5} md={6}>
+        <span className="px-3"> Cocido antes: </span>
       </Grid>
-      <Grid item xs={7} md={7}>
+      <Grid item xs={7} md={6}>
         <FormControl sx={{ border: "none" }}>
           <Select
             variant="standard"
@@ -31,15 +37,11 @@ export const SelectCocinadoAntes = () => {
             value={cocinadoAntes}
             onChange={(e) => setCocinadoAntes(e.target.value)}
           >
-            <MenuItem value={"todos"}>
-              <strong>Todos</strong>
-            </MenuItem>
-            <MenuItem value={"activos"}>
-              <strong>Activos</strong>
-            </MenuItem>
-            <MenuItem value={"inactivos"}>
-              <strong>Inactivos</strong>
-            </MenuItem>
+            {opciones.map((item, index) => (
+              <MenuItem value={item.name} key={index} sx={{ width: "100%" }}>
+                <strong>{item.value}</strong>
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>

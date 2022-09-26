@@ -1,15 +1,7 @@
-.navbar {
-  display: "flex";
-  width: '100%';
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-
 .grid_titulo{
   color: var(--primary-color);
   padding: 0 0 16px 0;
+
 }
 
 .form_select_options{
@@ -34,4 +26,18 @@
   background-color:white;
   margin: 0;
   max-width: 100%;
+}
+
+.container_list {
+  padding-left: 56px !important;
+  padding-right: 8px;
+}
+
+@media (max-width: 768px) {
+  .grid_titulo{
+    margin-top: 1rem;
+  }
+  .container_list{
+    padding-left: 30px !important;
+  }
 }

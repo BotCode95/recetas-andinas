@@ -4,7 +4,7 @@ import { Receta } from "../../interfaces/recetaInterface";
 type RecipesActionType =
   | { type: "GetRecipes"; payload: Receta[] }
   | { type: "AddRecipe"; payload: Receta }
-  // | { type: "RecipeUpdate"; payload: Receta }
+  | { type: "RecipeUpdateState"; payload: {id: number, state: boolean} }
   | { type: "ErrorMessage"; payload: string }
   | { type: "GetRecipesByFilter"; payload: {search: string, isActive: boolean | null }}
 
@@ -26,6 +26,7 @@ export const RecetasReducer = (state: RecetasState,action: RecipesActionType): R
       return {
         ...state,
         recipes: action.payload,
+        loading: false
       };
     case "AddRecipe":{
       return {
@@ -40,7 +41,17 @@ export const RecetasReducer = (state: RecetasState,action: RecipesActionType): R
           : state.recipes.filter((recipe) => recipe.active === action.payload.isActive),
         messageSearch: (action.payload.search !== '') ? ("La búsqueda no arrojo resultados"): ''
       }
-    
+    case "RecipeUpdateState":
+      return {
+        ...state,
+        recipes: state.recipes.map((recipe) => {
+          if (recipe.id === action.payload.id) {
+            recipe.active = action.payload.state
+            return recipe 
+          } else {
+            return recipe
+          }})
+      }
     case "ErrorMessage":
       return {
         ...state,
