@@ -23,8 +23,6 @@ para poder ejecutar el proyecto es necesario ejecute el comando :
 Correr Aplicación ⚙️
 para ejecutar el proyecto en local ejecute el comando:
  npm run dev
-# or
- yarn dev
 
 Autor ✒️
 Patricio Bottino
